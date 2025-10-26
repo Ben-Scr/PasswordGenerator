@@ -43,13 +43,10 @@ namespace PasswordGeneratorCS
         private static string[] passwords;
         private static string[] names;
 
-        static PasswordUtility()
+        public static void Initialize()
         {
-            Task.Run(() =>
-            {
-                passwords = File.ReadAllLines("Resources/Passwords.txt");
-                names = File.ReadAllLines("Resources/Names.txt");
-            });
+            passwords = File.ReadAllLines("Resources/Passwords.txt");
+            names = File.ReadAllLines("Resources/Names.txt");
         }
 
         internal static string FormattedValue(BigInteger value)
@@ -191,12 +188,11 @@ namespace PasswordGeneratorCS
         public static string ClassifyPassword(string password)
         {
             float strength = GetPasswordStrength(password);
-
             bool containsName = names.Contains(password, StringComparer.OrdinalIgnoreCase);
 
             if (passwords.Contains(password.ToLower()))
             {
-                return "is one of the most common passwords" + (containsName ? " and contains a name" : "");
+                return "one of the most common passwords" + (containsName ? " and contains a name" : "");
             }
             else if (containsName)
             {
@@ -207,24 +203,24 @@ namespace PasswordGeneratorCS
 
             if (differentChars <= 2)
             {
-                return "is very weak since it follows a very simple pattern";
+                return "very weak since it follows a very simple pattern";
             }
             else if (differentChars <= 3)
             {
-                return "is weak since it follows a very simple pattern";
+                return "weak since it follows a very simple pattern";
             }
 
 
-            if (strength < 0.1f) return "is Very Weak";
-            else if (strength < 0.2f) return "is Weak";
-            else if (strength < 0.3f) return "is Bad";
-            else if (strength < 0.4f) return "is Not Good";
-            else if (strength < 0.5f) return "is Medium";
-            else if (strength < 0.6f) return "is Okay";
-            else if (strength < 0.7f) return "is Safe";
-            else if (strength < 0.8f) return "is Very Safe";
-            else if (strength <= 0.9f) return "is Extreme Safe";
-            else if (strength > 0.9f) return "is Ultra Safe";
+            if (strength < 0.1f) return "Very Weak";
+            else if (strength < 0.2f) return "Weak";
+            else if (strength < 0.3f) return "Bad";
+            else if (strength < 0.4f) return "Not Safe";
+            else if (strength < 0.5f) return "Medium";
+            else if (strength < 0.6f) return "Okay";
+            else if (strength < 0.7f) return "Safe";
+            else if (strength < 0.8f) return "Very Safe";
+            else if (strength <= 0.9f) return "Extreme Safe";
+            else if (strength > 0.9f) return "Ultra Safe";
 
             return "No classification found";
         }
