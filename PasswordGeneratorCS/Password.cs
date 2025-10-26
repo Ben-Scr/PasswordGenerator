@@ -27,17 +27,24 @@ namespace PasswordGeneratorCS
         private string includeCharset = string.Empty;
         private string excludeCharset = string.Empty;
 
-        public int length = MIN_PWD_LENGTH;
-        public IncludeFlags flags = IncludeFlags.All;
+        private int length = MIN_PWD_LENGTH;
+        private IncludeFlags flags = IncludeFlags.All;
 
-        public Password LengthRequired(int len)
+        public void SetLength(int length)
         {
-            length = Math.Clamp(len, MIN_PWD_LENGTH, 4096);
-            return this;
+            this.length = Math.Clamp(length, MIN_PWD_LENGTH, 4096);
+        }
+        public void SetFlags(IncludeFlags flags)
+        {
+            this.flags = flags;
+        }
+        public void RemoveFlags(IncludeFlags flags)
+        {
+            this.flags &= ~flags;
         }
 
-        public Password IncludeCharset(string charset) { includeCharset = charset ?? ""; return this; }
-        public Password ExcludeCharset(string charset) { excludeCharset = charset ?? ""; return this; }
+        public void IncludeCharset(string charset) => includeCharset = charset;
+        public void ExcludeCharset(string charset) => excludeCharset = charset;
 
 
         private char[] BuildCharset()
@@ -115,5 +122,4 @@ namespace PasswordGeneratorCS
             return size;
         }
     }
-
 }
