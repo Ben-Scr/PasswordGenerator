@@ -1,5 +1,5 @@
 # Password Generator
-An extremly safe C# Net9.0 Password Generator
+An extremly safe C# `Net 9.0` Password Generator
 
 ## Usage
 - Generation of Safe Password
