@@ -6,7 +6,7 @@ An extremly safe C# Net9.0 Password Generator
 - Hashing of Passwords
 - Utitlies for Classifying Passwords and detecting common used passwords
 
-## Syntax
+## How to use
 ```csharp
 Password pwd = new Password();
 pwd.SetIncludeFlags(IncludeFlags.Digits | IncludeFlags.Uppercase);
