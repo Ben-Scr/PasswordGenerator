@@ -1,4 +1,4 @@
-﻿using PasswordGeneratorCS;
+﻿using BenScr.Security.Password;
 public static class Program
 {
     public static void Main(string[] args)
