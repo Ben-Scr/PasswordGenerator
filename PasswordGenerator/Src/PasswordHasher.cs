@@ -2,9 +2,9 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BenScr.Security.Password
+namespace BenScr.Security
 {
-    public class PasswordHasher
+    public sealed class PasswordHasher
     {
         private int iterations = 3;
         private int memoryKB = 64 * 1024;

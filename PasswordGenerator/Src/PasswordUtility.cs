@@ -2,7 +2,7 @@
 using System.Numerics;
 using System.Reflection;
 
-namespace BenScr.Security.Password
+namespace BenScr.Security
 {
     public enum PasswordStrength
     {

@@ -1,4 +1,4 @@
-﻿using BenScr.Security.Password;
+﻿using BenScr.Security;
 public static class Program
 {
     public static void Main(string[] args)

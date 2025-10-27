@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace BenScr.Security.Password
+namespace BenScr.Security
 {
     [Flags]
     public enum IncludeFlags
@@ -13,7 +13,7 @@ namespace BenScr.Security.Password
         All = Digits | Uppercase | Lowercase | Symbols
     }
 
-    public class Password
+    public sealed class Password
     {
         private const int MIN_PWD_LENGTH = 16;
         private const string DIGITS = "0123456789";
