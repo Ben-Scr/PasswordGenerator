@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using System.Reflection;
 
 namespace BenScr.Security.Password
 {
@@ -40,8 +41,16 @@ namespace BenScr.Security.Password
 
         public static void Initialize()
         {
-            passwords = File.ReadAllLines("Resources/Passwords.txt");
-            names = File.ReadAllLines("Resources/Names.txt");
+            var assembly = Assembly.GetExecutingAssembly();
+            passwords = ReadResourceLines(assembly, "PasswordGenerator.Resources.Passwords.txt");
+            names = ReadResourceLines(assembly, "PasswordGenerator.Resources.Names.txt");
+        }
+
+        private static string[] ReadResourceLines(Assembly assembly, string resourceName)
+        {
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         internal static string FormattedValue(BigInteger value)
