@@ -1,7 +1,6 @@
 ﻿using System.Security.Cryptography;
-using System.Text.RegularExpressions;
 
-namespace PasswordGeneratorCS
+namespace BenScr.Security.Password
 {
     [Flags]
     public enum IncludeFlags

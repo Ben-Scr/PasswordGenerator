@@ -1,9 +1,8 @@
-﻿
-using Konscious.Security.Cryptography;
+﻿using Konscious.Security.Cryptography;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace PasswordGeneratorCS
+namespace BenScr.Security.Password
 {
     public class PasswordHasher
     {
