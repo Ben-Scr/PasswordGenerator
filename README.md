@@ -8,6 +8,9 @@ An extremly safe C# Net9.0 Password Generator
 
 ## How to use
 ```csharp
+using BenScr.Security;
+```
+```csharp
 Password pwd = new Password();
 pwd.SetIncludeFlags(IncludeFlags.Digits | IncludeFlags.Uppercase);
 pwd.SetLength(32);
