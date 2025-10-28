@@ -19,3 +19,5 @@ string password = pwd.Next();
 PasswordHasher hasher = new PasswordHasher();
 string hash = hasher.ToHash(password);
 ```
+## Support
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/yourname)</p>
