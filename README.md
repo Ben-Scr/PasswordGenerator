@@ -1,5 +1,5 @@
 # Password Generator
-An extremly safe C# Net9.0 Password Generator
+An extremly safe C# `Net 9.0` Password Generator
 
 ## Usage
 - Generation of Safe Password
@@ -7,6 +7,9 @@ An extremly safe C# Net9.0 Password Generator
 - Utitlies for Classifying Passwords and detecting common used passwords
 
 ## How to use
+```csharp
+using BenScr.Security;
+```
 ```csharp
 Password pwd = new Password();
 pwd.SetIncludeFlags(IncludeFlags.Digits | IncludeFlags.Uppercase);
@@ -16,3 +19,5 @@ string password = pwd.Next();
 PasswordHasher hasher = new PasswordHasher();
 string hash = hasher.ToHash(password);
 ```
+## Support
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/benscr)</p>
