@@ -8,7 +8,7 @@ namespace BenScr.Security
     {
         VeryWeak,
         Weak,
-        Medium,
+        Medium ,
         Strong,
         ExtremeStrong
     }
@@ -38,9 +38,11 @@ namespace BenScr.Security
     {
         private static string[] passwords;
         private static string[] names;
+        private static bool init;
 
         public static void Initialize()
         {
+            init = true;
             var assembly = Assembly.GetExecutingAssembly();
             passwords = ReadResourceLines(assembly, "PasswordGenerator.Resources.Passwords.txt");
             names = ReadResourceLines(assembly, "PasswordGenerator.Resources.Names.txt");
@@ -243,7 +245,6 @@ namespace BenScr.Security
 
             return result;
         }
-
         public static BigInteger PossibleCombinations(string password)
         {
             int charsetLength = Password.CharsetLength(password);
