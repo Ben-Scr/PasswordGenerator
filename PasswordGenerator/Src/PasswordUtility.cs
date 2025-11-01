@@ -55,7 +55,7 @@ namespace BenScr.Security
             return reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        internal static string FormattedValue(BigInteger value)
+        public static string FormattedValue(BigInteger value)
         {
             var culture = CultureInfo.InvariantCulture;
             decimal number;
