@@ -29,21 +29,32 @@ namespace BenScr.Security
         private int length = MIN_PWD_LENGTH;
         private IncludeFlags flags = IncludeFlags.All;
 
-        public void SetLength(int length)
+        public  Password SetLength(int length)
         {
             this.length = Math.Clamp(length, MIN_PWD_LENGTH, 4096);
+            return this;
         }
-        public void SetFlags(IncludeFlags flags)
+        public Password SetFlags(IncludeFlags flags)
         {
             this.flags = flags;
+            return this;
         }
-        public void RemoveFlags(IncludeFlags flags)
+        public Password RemoveFlags(IncludeFlags flags)
         {
             this.flags &= ~flags;
+            return this;
         }
 
-        public void IncludeCharset(string charset) => includeCharset = charset;
-        public void ExcludeCharset(string charset) => excludeCharset = charset;
+        public Password IncludeCharset(string charset)
+        {
+            includeCharset = charset;
+            return this;
+        }
+        public Password ExcludeCharset(string charset)
+        {
+            excludeCharset = charset;
+            return this;
+        }
 
 
         private char[] BuildCharset()
