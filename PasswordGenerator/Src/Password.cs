@@ -37,7 +37,9 @@ namespace BenScr.Security
 
         public Password(int length, bool upper, bool lower, bool digits, bool symbols, string includeCharset = "", string excludeCharset = "")
         {
+            flags = IncludeFlags.None;
             this.length = length;
+
             if (upper) flags |= IncludeFlags.Uppercase;
             if (lower) flags |= IncludeFlags.Lowercase;
             if (digits) flags |= IncludeFlags.Digits;
