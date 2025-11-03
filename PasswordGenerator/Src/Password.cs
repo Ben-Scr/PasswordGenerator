@@ -29,21 +29,52 @@ namespace BenScr.Security
         private int length = MIN_PWD_LENGTH;
         private IncludeFlags flags = IncludeFlags.All;
 
-        public void SetLength(int length)
+        public static Password Default() => new Password();
+        public Password(int length = 16)
         {
-            this.length = Math.Clamp(length, MIN_PWD_LENGTH, 4096);
-        }
-        public void SetFlags(IncludeFlags flags)
-        {
-            this.flags = flags;
-        }
-        public void RemoveFlags(IncludeFlags flags)
-        {
-            this.flags &= ~flags;
+            this.length = length;
         }
 
-        public void IncludeCharset(string charset) => includeCharset = charset;
-        public void ExcludeCharset(string charset) => excludeCharset = charset;
+        public Password(int length, bool upper, bool lower, bool digits, bool symbols, string includeCharset = "", string excludeCharset = "")
+        {
+            flags = IncludeFlags.None;
+            this.length = length;
+
+            if (upper) flags |= IncludeFlags.Uppercase;
+            if (lower) flags |= IncludeFlags.Lowercase;
+            if (digits) flags |= IncludeFlags.Digits;
+            if (symbols) flags |= IncludeFlags.Symbols;
+
+            this.includeCharset = includeCharset;
+            this.excludeCharset = excludeCharset;
+        }
+
+        public Password SetLength(int length)
+        {
+            this.length = Math.Clamp(length, MIN_PWD_LENGTH, 4096);
+            return this;
+        }
+        public Password SetFlags(IncludeFlags flags)
+        {
+            this.flags = flags;
+            return this;
+        }
+        public Password RemoveFlags(IncludeFlags flags)
+        {
+            this.flags &= ~flags;
+            return this;
+        }
+
+        public Password IncludeCharset(string charset)
+        {
+            includeCharset = charset;
+            return this;
+        }
+        public Password ExcludeCharset(string charset)
+        {
+            excludeCharset = charset;
+            return this;
+        }
 
 
         private char[] BuildCharset()

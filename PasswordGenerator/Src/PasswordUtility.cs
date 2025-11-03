@@ -55,7 +55,7 @@ namespace BenScr.Security
             return reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        internal static string FormattedValue(BigInteger value)
+        public static string FormattedValue(BigInteger value)
         {
             var culture = CultureInfo.InvariantCulture;
             decimal number;
@@ -267,17 +267,16 @@ namespace BenScr.Security
 
 
         // Returns a value from 0 to 1 defining the strength of the Password 0 = Low Strength 1 = High Strength
-        public static float GetPasswordStrength(string password)
+        public static float GetPasswordStrength(string password) 
             => GetPasswordStrength(Password.CharsetLength(password), password.Length);
 
-        public static float GetPasswordStrength(BigInteger combinations, float targetBits = 128.0f)
+        public static float GetPasswordStrength(int charsetLength, int passwordLength, double targetBits = 128.0)
         {
-            if (combinations <= 1)
-                return 0f;
+            if (charsetLength <= 1 || passwordLength <= 0) return 0f;
 
-            double bits = BigInteger.Log(combinations, 2);
+            double bits = passwordLength * Math.Log(charsetLength, 2.0);
             float strength = (float)(bits / targetBits);
-            return Math.Clamp(strength, 0.0f, 1.0f);
+            return Math.Clamp(strength, 0f, 1f);
         }
     }
 }
