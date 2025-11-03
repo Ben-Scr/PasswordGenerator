@@ -193,6 +193,8 @@ namespace BenScr.Security
         }
         public static string ClassifyPassword(string password)
         {
+            if(!init) throw new InvalidOperationException("PasswordUtility is not initialized. Call Initialize() before using this method.");
+
             float strength = GetPasswordStrength(password);
             bool containsName = names.Contains(password, StringComparer.OrdinalIgnoreCase);
 
