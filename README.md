@@ -1,8 +1,8 @@
 # Password Generator
-An extremly safe C# `Net 9.0` Password Generator
+A C# `Net 9.0` Password Generator
 
 ## Usage
-- Generation of Safe Password
+- Generation of Safe Passwords
 - Hashing of Passwords
 - Utitlies for Classifying Passwords and detecting common used passwords
 
