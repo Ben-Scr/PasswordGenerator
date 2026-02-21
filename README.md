@@ -19,5 +19,8 @@ string password = pwd.Next();
 PasswordHasher hasher = new PasswordHasher();
 string hash = hasher.ToHash(password);
 ```
+## External Libraries
+- [Argon2](https://github.com/kmaragon/Konscious.Security.Cryptography/tree/master/Konscious.Security.Cryptography.Argon2) - Hashing Algorithm
+
 ## Example Project
 An example Project using this PasswordGenerator is [`PasswordGeneratorWPF`](https://github.com/Ben-Scr/PasswordGeneratorWPF)
