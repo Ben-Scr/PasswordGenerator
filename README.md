@@ -1,9 +1,9 @@
 # Password Generator
-A C# `.Net 9.0` Password Generator
+A C# `.Net 9.0` Password Generation and Hashing library
 
 ## Usage
 - Generation of Safe Passwords
-- Hashing of Passwords
+- Hashing of Passwords using Argon2
 - Utitlies for Classifying Passwords and detecting common used passwords
 
 ## How to use
