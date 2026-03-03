@@ -1,5 +1,5 @@
 # Password Generator
-A C# `.Net 9.0` Password Generation and Hashing library
+A C# `.Net 9.0` Password Generation and Hashing Utility Library
 
 ## Usage
 - Generation of Safe Passwords
