@@ -36,21 +36,23 @@ namespace BenScr.Security
 
     public static class PasswordUtility
     {
-        private static string[] passwords;
-        private static string[] names;
+        private static string[]? passwords;
+        private static string[]? names;
+
         private static bool init;
 
         public static void Initialize()
         {
             init = true;
-            var assembly = Assembly.GetExecutingAssembly();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
             passwords = ReadResourceLines(assembly, "PasswordGenerator.Resources.Passwords.txt");
             names = ReadResourceLines(assembly, "PasswordGenerator.Resources.Names.txt");
         }
 
         private static string[] ReadResourceLines(Assembly assembly, string resourceName)
         {
-            using var stream = assembly.GetManifestResourceStream(resourceName);
+            using Stream? stream = assembly.GetManifestResourceStream(resourceName);
             using var reader = new StreamReader(stream);
             return reader.ReadToEnd().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         }
@@ -193,12 +195,12 @@ namespace BenScr.Security
         }
         public static string ClassifyPassword(string password)
         {
-            if(!init) throw new InvalidOperationException("PasswordUtility is not initialized. Call Initialize() before using this method.");
+            if(!init) throw new InvalidOperationException("PasswordUtility is not initialized, call Initialize() before using this method.");
 
             float strength = GetPasswordStrength(password);
-            bool containsName = names.Contains(password, StringComparer.OrdinalIgnoreCase);
+            bool containsName = names?.Contains(password, StringComparer.OrdinalIgnoreCase) ?? false;
 
-            if (passwords.Contains(password.ToLower()))
+            if (passwords?.Contains(password.ToLower()) ?? false)
             {
                 return "one of the most common passwords" + (containsName ? " and contains a name" : "");
             }
@@ -266,7 +268,7 @@ namespace BenScr.Security
         }
 
 
-        // Returns a value from 0 to 1 defining the strength of the Password 0 = Low Strength 1 = High Strength
+        // Returns a value from 0 to 1 defining the strength of the Password 0 = Low Strength and 1 = High Strength
         public static float GetPasswordStrength(string password) 
             => GetPasswordStrength(Password.CharsetLength(password), password.Length);
 

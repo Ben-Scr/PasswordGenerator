@@ -14,27 +14,27 @@ namespace BenScr.Security
 
         public static PasswordHasher Default() => new PasswordHasher();
 
-        public PasswordHasher HashLength(int length)
+        public PasswordHasher SetHashLength(int length)
         {
             hashLength = Math.Clamp(length, 16, 64);
             return this;
         }
-        public PasswordHasher Iterations(int count)
+        public PasswordHasher SetIterations(int count)
         {
             iterations = Math.Clamp(count, 1, 10);
             return this;
         }
-        public PasswordHasher MemoryKB(int kb)
+        public PasswordHasher SetMemoryKB(int kb)
         {
             memoryKB = Math.Clamp(kb, 8, 512) * 1024;
             return this;
         }
-        public PasswordHasher Parallel(int length)
+        public PasswordHasher SetParallel(int length)
         {
             parallelCoresLength = Math.Clamp(length, 1, 12);
             return this;
         }
-        public PasswordHasher SaltLength(int length)
+        public PasswordHasher SetSaltLength(int length)
         {
             saltLength = Math.Clamp(length, 16, 64);
             return this;
@@ -57,6 +57,7 @@ namespace BenScr.Security
             string hashB64 = Convert.ToBase64String(hash);
             return $"$argon2id$v=19$m={memoryKB},t={iterations},p={parallelCoresLength}${saltB64}${hashB64}";
         }
+
         public bool Verify(string hash, string password)
         {
             if (hash is null) throw new ArgumentNullException(nameof(hash));
@@ -77,6 +78,7 @@ namespace BenScr.Security
 
             return FixedTimeEquals(computed, pars.Hash);
         }
+
         private byte[] ComputeArgon2id(byte[] password,byte[] salt,int memoryKb,int iterations,int parallelism, int hashLength)
         {
             var argon2 = new Argon2id(password)
@@ -86,23 +88,24 @@ namespace BenScr.Security
                 Iterations = Math.Max(1, iterations),
                 MemorySize = Math.Max(8 * 1024, memoryKb)
             };
+
             return argon2.GetBytes(hashLength);
         }
+
         private bool TryParseFormattedHash(string formatted, out ParsedHash pars)
         {
             pars = default;
 
-
-            var parts = formatted.Split('$', StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = formatted.Split('$', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 5) return false;
             if (!parts[0].Equals("argon2id", StringComparison.OrdinalIgnoreCase)) return false;
             if (!parts[1].Equals("v=19", StringComparison.OrdinalIgnoreCase)) return false;
 
 
             int memoryKb = 0, iterations = 0, parallel = 0;
-            foreach (var kv in parts[2].Split(',', StringSplitOptions.RemoveEmptyEntries))
+            foreach (string kv in parts[2].Split(',', StringSplitOptions.RemoveEmptyEntries))
             {
-                var pair = kv.Split('=', 2);
+                string[] pair = kv.Split('=', 2);
                 if (pair.Length != 2) return false;
                 switch (pair[0])
                 {
@@ -114,6 +117,7 @@ namespace BenScr.Security
             }
 
             byte[] salt, hash;
+
             try
             {
                 salt = Convert.FromBase64String(parts[3]);

@@ -15,7 +15,8 @@ namespace BenScr.Security
 
     public sealed class Password
     {
-        private const int MIN_PWD_LENGTH = 16;
+        public static int MinPasswordLength = 16;
+
         private const string DIGITS = "0123456789";
         private const string UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private const string LOWER = "abcdefghijklmnopqrstuvwxyz";
@@ -26,19 +27,28 @@ namespace BenScr.Security
         private string includeCharset = string.Empty;
         private string excludeCharset = string.Empty;
 
-        private int length = MIN_PWD_LENGTH;
+        private int length = MinPasswordLength;
         private IncludeFlags flags = IncludeFlags.All;
 
         public static Password Default() => new Password();
         public Password(int length = 16)
         {
-            this.length = length;
+            this.length = Math.Clamp(length, MinPasswordLength, 4096);
+        }
+
+        public Password(int length, IncludeFlags flag, string includeCharset = "", string excludeCharset = "")
+        {
+            flags = flag;
+            this.length = Math.Clamp(length, MinPasswordLength, 4096);
+
+            this.includeCharset = includeCharset;
+            this.excludeCharset = excludeCharset;
         }
 
         public Password(int length, bool upper, bool lower, bool digits, bool symbols, string includeCharset = "", string excludeCharset = "")
         {
             flags = IncludeFlags.None;
-            this.length = length;
+            this.length = Math.Clamp(length, MinPasswordLength, 4096);
 
             if (upper) flags |= IncludeFlags.Uppercase;
             if (lower) flags |= IncludeFlags.Lowercase;
@@ -51,26 +61,26 @@ namespace BenScr.Security
 
         public Password SetLength(int length)
         {
-            this.length = Math.Clamp(length, MIN_PWD_LENGTH, 4096);
+            this.length = Math.Clamp(length, MinPasswordLength, 4096);
             return this;
         }
-        public Password SetFlags(IncludeFlags flags)
+        public Password SetIncludeFlags(IncludeFlags flags)
         {
             this.flags = flags;
             return this;
         }
-        public Password RemoveFlags(IncludeFlags flags)
+        public Password RemoveIncludeFlags(IncludeFlags flags)
         {
             this.flags &= ~flags;
             return this;
         }
 
-        public Password IncludeCharset(string charset)
+        public Password SetIncludeCharset(string charset)
         {
             includeCharset = charset;
             return this;
         }
-        public Password ExcludeCharset(string charset)
+        public Password SetExcludeCharset(string charset)
         {
             excludeCharset = charset;
             return this;
@@ -79,26 +89,26 @@ namespace BenScr.Security
 
         private char[] BuildCharset()
         {
-            var set = new HashSet<char>();
+            var charSet = new HashSet<char>();
 
-            foreach (var c in includeCharset) set.Add(c);
+            foreach (var c in includeCharset) charSet.Add(c);
 
-            if (flags.HasFlag(IncludeFlags.Digits)) foreach (var c in DIGITS) set.Add(c);
-            if (flags.HasFlag(IncludeFlags.Uppercase)) foreach (var c in UPPER) set.Add(c);
-            if (flags.HasFlag(IncludeFlags.Lowercase)) foreach (var c in LOWER) set.Add(c);
-            if (flags.HasFlag(IncludeFlags.Symbols)) foreach (var c in SYMBOLS) set.Add(c);
+            if (flags.HasFlag(IncludeFlags.Digits)) foreach (var c in DIGITS) charSet.Add(c);
+            if (flags.HasFlag(IncludeFlags.Uppercase)) foreach (var c in UPPER) charSet.Add(c);
+            if (flags.HasFlag(IncludeFlags.Lowercase)) foreach (var c in LOWER) charSet.Add(c);
+            if (flags.HasFlag(IncludeFlags.Symbols)) foreach (var c in SYMBOLS) charSet.Add(c);
 
-            foreach (var c in excludeCharset) set.Remove(c);
+            foreach (var c in excludeCharset) charSet.Remove(c);
 
-            if (set.Count == 0) throw new InvalidOperationException("Charset empty");
-            return set.ToArray();
+            if (charSet.Count == 0) throw new InvalidOperationException("Charset is empty");
+            return charSet.ToArray();
         }
 
         private static int NextIndex(int maxExclusive) => RandomNumberGenerator.GetInt32(maxExclusive);
 
         public string Next()
         {
-            if (length <= 0) throw new InvalidOperationException("Invalid length");
+            if (length <= 0) throw new InvalidOperationException($"Invalid length: {length}");
 
             var charset = BuildCharset();
             var required = new List<char>();
