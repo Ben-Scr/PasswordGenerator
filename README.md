@@ -19,6 +19,13 @@ string password = pwd.Next();
 PasswordHasher hasher = new PasswordHasher();
 string hash = hasher.ToHash(password);
 ```
+
+## Example Output
+```cmd
+Generated Password "5P526N2FSQDX9Q1P0J5YJ3BLOKAV1Q2R"
+Ultra Safe
+```
+
 ## External Libraries
 - [Argon2](https://github.com/kmaragon/Konscious.Security.Cryptography/tree/master/Konscious.Security.Cryptography.Argon2) - Hashing Algorithm
 
